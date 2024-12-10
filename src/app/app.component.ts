@@ -1,12 +1,13 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component } from "@angular/core";
+import { RouterOutlet } from "@angular/router";
+import { StoriesComponent } from "./stories/stories.component";
 
 @Component({
-  selector: 'app-root',
-  imports: [RouterOutlet],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  selector: "app-root",
+  imports: [RouterOutlet, StoriesComponent],
+  templateUrl: "./app.component.html",
+  styleUrl: "./app.component.css",
 })
 export class AppComponent {
-  title = 'news-inc';
+  title = "news-inc";
 }
