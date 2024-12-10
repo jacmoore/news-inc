@@ -1,7 +1,49 @@
-<div>
-  @for (story of stories; track story.id) {
-  <div>{{ story.title }}</div>
-  } @if (stories.length === 0 && !loading) {
-  <p class="text-lg">Sorry, no stories found.</p>
-  }
+<div class="grid-container">
+  <mat-toolbar aria-label="News Type">
+    <mat-button-toggle-group
+      #group="matButtonToggleGroup"
+      (change)="toggleStories($event)"
+    >
+      <mat-button-toggle checked value="top"> Top Stories </mat-button-toggle>
+      <mat-button-toggle value="new"> New Stories </mat-button-toggle>
+    </mat-button-toggle-group>
+  </mat-toolbar>
+  <mat-grid-list [cols]="gridCols" rowHeight="130px">
+    @for (story of stories; track story.id) {
+    <mat-grid-tile [colspan]="1" [rowspan]="1">
+      <mat-card class="story-card">
+        <mat-card-header class="story-card-header">
+          <mat-card-title class="story-card-title">
+            <a
+              [href]="story.url"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="story-card-title-link"
+            >
+              @if(story.title.length>60){ {{ story.title.substring(0, 60) }}...}
+              @else{ {{ story.title }}}
+            </a>
+          </mat-card-title>
+          <div class="story-card-score">{{ story.score }}</div>
+        </mat-card-header>
+
+        <mat-card-footer class="story-card-footer">
+          <span>{{ extractDomainFromUrl(story.url) }}</span>
+
+          <span>{{ story.time | timeDifference }} ago</span>
+
+          <span>by {{ story.by }}</span>
+        </mat-card-footer>
+      </mat-card>
+    </mat-grid-tile>
+
+    } @if (stories.length === 0 && !loading) {
+    <p class="text-lg">Sorry, no stories found.</p>
+    }
+  </mat-grid-list>
+  <mat-paginator
+    [length]="storyIds.length"
+    [pageSize]="PAGE_SIZE"
+    (page)="topStories ? load(TOP_STORIES) : load(NEW_STORIES)"
+  ></mat-paginator>
 </div>

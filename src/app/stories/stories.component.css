@@ -1,0 +1,56 @@
+.grid-container {
+  margin: 50px 10px 10px 10px;
+  background-color: white;
+}
+
+.story-card {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  top: 15px;
+  left: 15px;
+  right: 15px;
+  bottom: 15px;
+}
+.story-card-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.story-card-title {
+  display: inline;
+  max-width: calc(100% - 60px);
+}
+.story-title {
+  max-width: calc(100% - 60px);
+}
+.story-card-title-link {
+  text-decoration: none;
+  color: black;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.story-card-score {
+  font-size: large;
+  font-weight: 600;
+}
+.story-card-content {
+  text-align: center;
+}
+.story-card-footer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 20px 10px 10px 10px;
+}
+.url-link {
+  display: inline-block;
+  max-width: 250px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+mat-card {
+  background-color: white;
+}

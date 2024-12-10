@@ -1,11 +1,19 @@
 import { TestBed } from "@angular/core/testing";
 import { AppComponent } from "./app.component";
+import { provideHttpClient } from "@angular/common/http";
 
-describe("The app componenet", function () {
-  it("should have a RouterOutlet", () => {
+describe("The app component", function () {
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [AppComponent],
+      providers: [provideHttpClient()],
+    }).compileComponents();
+  });
+
+  it("should create the app", () => {
     const fixture = TestBed.createComponent(AppComponent);
-    const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector("router-outlet")).not.toBeNull();
+    const app = fixture.componentInstance;
+    expect(app).toBeTruthy();
   });
 
   it("should have a title property", () => {

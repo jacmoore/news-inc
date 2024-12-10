@@ -14,17 +14,17 @@ export class StoriesService {
   fetchingStoryDetails = false;
   page = 0;
 
-  PAGE_SIZE = 6;
+  PAGE_SIZE = 10;
   HACKER_NEWS_API_URL = "https://hacker-news.firebaseio.com/v0";
 
-  fetch(): Observable<number[]> {
+  fetch(storyType: string): Observable<number[]> {
     return this.#http
-      .get<number[]>(`${this.HACKER_NEWS_API_URL}/topstories.json`)
+      .get<number[]>(`${this.HACKER_NEWS_API_URL}/${storyType}.json`)
       .pipe(first());
   }
 
-  fetchStories(storyIds: number[]): Observable<Story[]> {
-    const ids = this.getStoryIdsForCurrentPage(storyIds);
+  fetchStories(storyIds: number[], pageSize: number): Observable<Story[]> {
+    const ids = this.getStoryIdsForCurrentPage(storyIds, pageSize);
     this.setFetchingStoryDetails(true);
 
     return this.fetchStoryDetails(ids).pipe(
@@ -35,9 +35,12 @@ export class StoriesService {
     );
   }
 
-  private getStoryIdsForCurrentPage(storyIds: number[]): number[] {
-    const start = this.page * this.PAGE_SIZE;
-    const end = start + this.PAGE_SIZE;
+  private getStoryIdsForCurrentPage(
+    storyIds: number[],
+    pageSize: number
+  ): number[] {
+    const start = this.page * pageSize;
+    const end = start + pageSize;
     return storyIds.slice(start, end);
   }
 
