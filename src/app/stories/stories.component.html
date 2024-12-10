@@ -1,1 +1,7 @@
-<p>stories works!</p>
+<div>
+  @for (story of stories; track story.id) {
+  <div>{{ story.title }}</div>
+  } @if (stories.length === 0 && !loading) {
+  <p class="text-lg">Sorry, no stories found.</p>
+  }
+</div>
