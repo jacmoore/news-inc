@@ -65,6 +65,6 @@ Potential improvements:
 
 ## Screen shots
 
-![Large Screen](../news-inc/large.png?raw=true)
-![Medium Screen](../news-inc/medium.png?raw=true)
-![Small Screen](../news-inc/small.png?raw=true)
+![Large Screen](./large.png?raw=true)
+![Medium Screen](./medium.png?raw=true)
+![Small Screen](./small.png?raw=true)
