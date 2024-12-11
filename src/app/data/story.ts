@@ -7,5 +7,6 @@ export type Story = {
   time: number;
   title: string;
   type: string;
+  text: string;
   url: string;
 };

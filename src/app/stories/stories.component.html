@@ -1,38 +1,62 @@
 <div class="grid-container">
-  <mat-toolbar aria-label="News Type">
+  <mat-toolbar>
     <mat-button-toggle-group
       #group="matButtonToggleGroup"
       (change)="toggleStories($event)"
+      aria-label="News Type"
     >
-      <mat-button-toggle checked value="top"> Top Stories </mat-button-toggle>
-      <mat-button-toggle value="new"> New Stories </mat-button-toggle>
+      <mat-button-toggle checked value="top" aria-label="Show Top Stories">
+        Top Stories
+      </mat-button-toggle>
+      <mat-button-toggle value="new" aria-label="Show New Stories">
+        New Stories
+      </mat-button-toggle>
     </mat-button-toggle-group>
   </mat-toolbar>
-  <mat-grid-list [cols]="gridCols" rowHeight="130px">
+  <mat-grid-list [cols]="gridCols" [rowHeight]="rowheight">
     @for (story of stories; track story.id) {
     <mat-grid-tile [colspan]="1" [rowspan]="1">
       <mat-card class="story-card">
         <mat-card-header class="story-card-header">
-          <mat-card-title class="story-card-title">
-            <a
-              [href]="story.url"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="story-card-title-link"
-            >
-              @if(story.title.length>60){ {{ story.title.substring(0, 60) }}...}
-              @else{ {{ story.title }}}
-            </a>
-          </mat-card-title>
-          <div class="story-card-score">{{ story.score }}</div>
+          <div class="story-card-time" aria-label="Story Age">
+            {{ story.time | timeDifference }} ago
+          </div>
+          <div class="story-card-score" aria-label="Story Points">
+            {{ story.score }} {{ story.score === 1 ? "point" : "points" }}
+          </div>
         </mat-card-header>
+        <mat-card-content class="story-card-content">
+          <a
+            [href]="story.url"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="story-card-title-link"
+            tabindex="0"
+            role="link"
+            aria-label="Story Title"
+            >{{ story.title }}
+          </a>
+
+          @if(story.text) {
+          <div class="story-card-text" aria-label="Story Text">
+            {{ story.text }}
+          </div>
+          }
+        </mat-card-content>
 
         <mat-card-footer class="story-card-footer">
-          <span>{{ extractDomainFromUrl(story.url) }}</span>
+          <span aria-label="Story Orginated From">{{
+            extractDomainFromUrl(story.url)
+          }}</span>
 
-          <span>{{ story.time | timeDifference }} ago</span>
-
-          <span>by {{ story.by }}</span>
+          <span aria-label="Story By" class="icon-text">
+            <mat-icon>account_circle</mat-icon>
+            {{ story.by }}
+          </span>
+          <span aria-label="Number of Story Comments" class="icon-text">
+            <mat-icon>comment</mat-icon>
+            {{ story.descendants ? story.descendants : 0 }}
+          </span>
         </mat-card-footer>
       </mat-card>
     </mat-grid-tile>
@@ -44,6 +68,7 @@
   <mat-paginator
     [length]="storyIds.length"
     [pageSize]="PAGE_SIZE"
-    (page)="topStories ? load(TOP_STORIES) : load(NEW_STORIES)"
+    (page)="onPage($event)"
+    aria-label="Select page"
   ></mat-paginator>
 </div>

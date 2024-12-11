@@ -1,25 +1,18 @@
 import { Component, inject } from "@angular/core";
 import { Breakpoints, BreakpointObserver } from "@angular/cdk/layout";
-import { AsyncPipe } from "@angular/common";
 import { MatGridListModule } from "@angular/material/grid-list";
 import { MatMenuModule } from "@angular/material/menu";
 import { MatIconModule } from "@angular/material/icon";
 import { MatButtonModule } from "@angular/material/button";
 import { MatCardModule } from "@angular/material/card";
-import { MatPaginator, MatPaginatorModule } from "@angular/material/paginator";
-import { MatToolbar, MatToolbarModule } from "@angular/material/toolbar";
-import {
-  MatButtonToggle,
-  MatButtonToggleChange,
-} from "@angular/material/button-toggle";
+import { MatPaginatorModule, PageEvent } from "@angular/material/paginator";
+import { MatToolbarModule } from "@angular/material/toolbar";
+import { MatButtonToggleChange } from "@angular/material/button-toggle";
 import { MatButtonToggleModule } from "@angular/material/button-toggle";
-import { map } from "rxjs/operators";
 
 import { StoriesService } from "../data/stories.service";
 import { Story } from "../data/story";
 import { TimeDifferencePipe } from "../shared/time-difference.pipe";
-import { FormControl } from "@angular/forms";
-import { isElementAccessExpression } from "typescript";
 
 @Component({
   selector: "app-stories",
@@ -40,40 +33,50 @@ import { isElementAccessExpression } from "typescript";
 })
 export class StoriesComponent {
   #storiesService = inject(StoriesService);
-  private breakpointObserver = inject(BreakpointObserver);
+  #breakpointObserver = inject(BreakpointObserver);
 
-  fontStyleControl = new FormControl("");
-  fontStyle?: string;
-  gridCols = 4;
-  PAGE_SIZE = 12;
   NEW_STORIES = "newstories";
   TOP_STORIES = "topstories";
+  PAGE_SIZE = 12;
+
+  gridCols = 4;
+  page = 0;
+  rowheight = "250px";
   loading = false;
   storyIds: number[] = [];
   stories: Story[] = [];
   topStories = true;
-
-  ngOnInit(): void {
-    this.breakpointObserver
-      .observe(Breakpoints.Handset)
-      .subscribe(({ matches }) => {
-        if (matches) {
+  constructor() {
+    this.#breakpointObserver
+      .observe([
+        Breakpoints.HandsetPortrait,
+        Breakpoints.TabletPortrait,
+        Breakpoints.WebPortrait,
+        Breakpoints.TabletLandscape,
+      ])
+      .subscribe(({ breakpoints }) => {
+        if (breakpoints[Breakpoints.HandsetPortrait]) {
           this.gridCols = 1;
-        } else {
+        } else if (breakpoints[Breakpoints.TabletPortrait]) {
           this.gridCols = 2;
+        } else {
+          this.gridCols = 4;
         }
       });
-    this.load(this.TOP_STORIES);
   }
 
-  load(storyType: string): void {
+  ngOnInit(): void {
+    this.load(this.TOP_STORIES, this.page);
+  }
+
+  load(storyType: string, page: number): void {
     this.loading = true;
 
     this.#storiesService.fetch(storyType).subscribe({
       next: (storyIds: number[]) => {
         this.storyIds = storyIds;
         this.#storiesService
-          .fetchStories(this.storyIds, this.PAGE_SIZE)
+          .fetchStories(this.storyIds, this.PAGE_SIZE, page)
           .subscribe({
             next: (stories: Story[]) => {
               this.stories = stories;
@@ -91,22 +94,28 @@ export class StoriesComponent {
       },
     });
   }
+
+  onPage(event: PageEvent): void {
+    this.page = event.pageIndex;
+    this.topStories
+      ? this.load(this.TOP_STORIES, this.page)
+      : this.load(this.NEW_STORIES, this.page);
+  }
   extractDomainFromUrl(url: string): string {
     try {
       const parsedUrl = new URL(url);
       return parsedUrl.hostname;
     } catch (e) {
-      console.error("Invalid URL:", e);
-      return "No url available";
+      return "Url not available";
     }
   }
   toggleStories(event: MatButtonToggleChange) {
     if (event.value === "top") {
       this.topStories = true;
-      this.load(this.TOP_STORIES);
+      this.load(this.TOP_STORIES, this.page);
     } else {
       this.topStories = false;
-      this.load(this.NEW_STORIES);
+      this.load(this.NEW_STORIES, this.page);
     }
   }
 }

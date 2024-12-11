@@ -44,13 +44,14 @@ describe("StoriesService", () => {
 
   it("should fetch stories", () => {
     const dummyStoryIds = [1, 2, 3];
+    const page = 0;
     const dummyStories: Story[] = [
       { id: 1, title: "Story 1" } as Story,
       { id: 2, title: "Story 2" } as Story,
       { id: 3, title: "Story 3" } as Story,
     ];
 
-    service.fetchStories(dummyStoryIds, 3).subscribe((stories) => {
+    service.fetchStories(dummyStoryIds, 3, page).subscribe((stories) => {
       expect(stories.length).toBe(3);
       expect(stories).toEqual(dummyStories);
     });
@@ -63,11 +64,5 @@ describe("StoriesService", () => {
       const story = dummyStories.find((story) => story.id === id);
       req.flush(story ? story : {});
     });
-  });
-
-  it("should increment page after fetching stories", () => {
-    const dummyStoryIds = [1, 2, 3];
-    service.fetchStories(dummyStoryIds, 3).subscribe();
-    expect(service.page).toBe(1);
   });
 });

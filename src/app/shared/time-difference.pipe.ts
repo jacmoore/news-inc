@@ -20,13 +20,13 @@ export class TimeDifferencePipe implements PipeTransform {
     const days = Math.floor(hours / 24);
 
     if (days > 0) {
-      return `${days} day(s)`;
+      return `${days}` + (days === 1 ? ` day` : ` day's`);
     } else if (hours > 0) {
-      return `${hours} hour(s)`;
+      return `${hours}` + (hours === 1 ? ` hour` : ` hour's`);
     } else if (minutes > 0) {
-      return `${minutes} minute(s)`;
+      return `${minutes}` + (minutes === 1 ? ` minute` : ` minute's`);
     } else {
-      return `${seconds} second(s)`;
+      return `${seconds}` + (seconds === 1 ? ` second` : ` second's`);
     }
   }
 }
