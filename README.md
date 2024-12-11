@@ -62,3 +62,9 @@ Potential improvements:
 
 - Subtle changes, like improving contrast or using slightly softer tones, as long as the colors remain recognizable.
 - I did not check how to color scheme works for users with visual impairements, I think it should be ok, but that is something I would have liked to have tested.
+
+## Screen shots
+
+![Large Screen](../news-inc/large.png?raw=true)
+![Medium Screen](../news-inc/medium.png?raw=true)
+![Small Screen](../news-inc/small.png?raw=true)
