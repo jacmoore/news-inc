@@ -44,27 +44,35 @@ I assumed that the test coverage only applied to unit tests and for that reason 
 
 I took a responsive approach to the UI layout, so that cards take up more screen real estate when viewed on smaller viewports.
 
-Potential improvements:
+**Potential improvements:**
 
 - Add more unit tests for the breakpoints.
 - Adding animations & transitions when the layout changes to improve visual feedback during viewport resizing. Along with skeleton screens for loading.
 
 I did consider an auto refresh of the cards, so that the latest stories would be automatically displayed on the screen. In the end I decided against this, as it could be jarring if the cards get reshuffled.
 
-Potential improvements:
+**Potential improvements:**
 
 - Add an an icon/button so the user can manually refresh.
 - "new stories available" indicator (e.g., a small badge) that prompts users to refresh if new content is available. This could bridge the gap between live updates and user control.
 
 I stuck with the colors used in the hacker-news website in case they were associated with the brand.
 
-Potential improvements:
+**Potential improvements:**
 
 - Subtle changes, like improving contrast or using slightly softer tones, as long as the colors remain recognizable.
 - I did not check how to color scheme works for users with visual impairements, I think it should be ok, but that is something I would have liked to have tested.
 
 ## Screen shots
 
+### Large Screen
+
 ![Large Screen](./large.png?raw=true)
+
+### Tablet screen
+
 ![Medium Screen](./medium.png?raw=true)
+
+### Mobile device Screen
+
 ![Small Screen](./small.png?raw=true)
